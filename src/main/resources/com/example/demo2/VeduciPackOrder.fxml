@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="panef" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="537.0" prefWidth="806.0" stylesheets="@../../../styling/styling.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.VeduciPackOrderController">
+   <children>
+      <TableView fx:id="ProductAndPosition" prefHeight="479.0" prefWidth="806.0">
+        <columns>
+          <TableColumn fx:id="ProductInTableForSearch" prefWidth="364.0" text="Product" />
+            <TableColumn fx:id="countInTableForSearch" prefWidth="102.0" text="Count" />
+          <TableColumn fx:id="poziciaInTableForSearch" prefWidth="339.0" text="Pozicia" />
+        </columns>
+      </TableView>
+      <Button layoutX="615.0" layoutY="486.0" mnemonicParsing="false" onAction="#doneFromDump" prefHeight="37.0" prefWidth="82.0" text="Uroblena" />
+      <Button layoutX="129.0" layoutY="486.0" mnemonicParsing="false" onAction="#backFromDump" prefHeight="37.0" prefWidth="82.0" text="Back" />
+      <Button layoutX="362.0" layoutY="486.0" mnemonicParsing="false" onAction="#nedotatokFromDump" prefHeight="37.0" prefWidth="82.0" text="Nedostatok" />
+   </children>
+</AnchorPane>

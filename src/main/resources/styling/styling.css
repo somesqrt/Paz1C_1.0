@@ -1,0 +1,130 @@
+.button
+{
+    -fx-background-radius: 0em;
+    -fx-background-color : #6b60be;
+    -fx-text-fill: white;
+}
+
+.button:hover
+{
+    -fx-background-color : #634AA1;
+}
+
+.button:pressed
+{
+    -fx-background-color : #ffffff;
+}
+
+#buttonf{
+    -fx-background-color: #7156DD ;
+    -fx-border-color: #d7dcd7;
+    -fx-border-image-width: 0px 0px 0px 2px;
+}
+
+.table-row-cell:focused{
+    -fx-background-color: #81c483;
+    -fx-background-radius: 15px;
+}
+
+.pane{
+    -fx-border-color: black;
+    -fx-border-radius: 1px;
+}
+
+
+
+
+
+#panef{
+    -fx-background-color: rgba(101, 4, 87, 0.44);
+}
+
+
+.table-view {
+    -fx-background-color: transparent;
+
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(to bottom, #463e7a, rgba(75, 56, 122, 0.47));
+    -fx-background-radius: 7px 7px 0px 0px;
+    -fx-background-insets: 0 11px 0 0;
+    -fx-padding: 0 0 5px 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10px;
+}
+.table-row-cell:hover {
+    -fx-background-color: #93f9b911;
+    -fx-text-background-color: red;
+}
+.table-row-cell:odd{
+    -fx-background-color: #93f9b911;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-row-cell:even{
+    -fx-background-color: #1dbbdd11;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+}
+.table-view .virtual-flow .scroll-bar:vertical,
+.table-view .virtual-flow .scroll-bar:vertical .track,
+.table-view .virtual-flow .scroll-bar:vertical .track-background,
+.table-view .virtual-flow .scroll-bar:horizontal,
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:horizontal .track-background {
+    -fx-background-color: transparent;
+}
+.table-view .virtual-flow .scroll-bar .increment-button,
+.table-view .virtual-flow .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+    -fx-padding: 2;
+}
+.table-view .virtual-flow .scroll-bar:vertical .thumb{
+    -fx-background-color:  linear-gradient(to bottom, #463e7a, rgba(75, 56, 122, 0.47));
+}
+.table-view .virtual-flow .scroll-bar:horizontal .thumb {
+    -fx-background-color:  linear-gradient(to right, #463e7a, rgba(75, 56, 122, 0.47));
+}
+
+.text-field{
+    -fx-background-color: #b480c0;
+    -fx-border-color: #8b5e8d;
+
+}
+
+.combo-box{
+    -fx-background-color: #b480c0;
+    -fx-border-color: #8b5e8d;
+}
+
+.choice-box{
+    -fx-background-color: #b480c0;
+    -fx-border-color: #8b5e8d;
+}
+
+.tab-pane *.tab-header-area *.tab-header-background {
+    -fx-background-color: rgba(190, 116, 188, 0.7);
+}
+
+.tab {
+    -fx-background-color: rgba(199, 66, 197, 0.7);
+}
+.tab:selected {
+    -fx-background-color: rgb(255, 46, 250);
+}
