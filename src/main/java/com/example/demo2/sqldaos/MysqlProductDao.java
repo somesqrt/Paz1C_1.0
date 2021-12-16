@@ -165,6 +165,17 @@ public class MysqlProductDao implements ProductDao {
             }
         });
     }
+    @Override
+    public List<String> getALlNames() throws EntityNotFoundException {
+        String sql = "SELECT positionNumber FROM positions order by id asc;";
+        return jdbcTemplate.query(sql, new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                String category = rs.getString("positionNumber");
+                return category;
+            }
+        });
+    }
 
     @Override
     public boolean СapacityСheckProduct(Position position, Product product, int count) {

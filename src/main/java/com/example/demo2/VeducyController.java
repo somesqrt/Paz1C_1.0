@@ -57,11 +57,17 @@ public class VeducyController {
     public static AllOrderHelp order = null;
 
     public void handlerPredajca() throws  Exception{
-
+        if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("predajca.fxml"));
         Stage window = (Stage) predajca.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load(), 1200, 800));
-
+    }else{
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Incorrect data");
+        alert.setHeaderText(null);
+        alert.setContentText("Permision denied");
+        alert.show();
+    }
 
     }
 
@@ -74,19 +80,31 @@ public class VeducyController {
     }
 
     public void hendlerSkladnik() throws  Exception{
-
+        if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Skladnik.fxml"));
         LoginController.stage.getScene().getWindow();
         LoginController.stage.setScene(new Scene(fxmlLoader.load(), 1200, 800));
-
+    }else{
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Incorrect data");
+        alert.setHeaderText(null);
+        alert.setContentText("Permision denied");
+        alert.show();
+        }
     }
 
     public void hendlerAdmin() throws  Exception{
-
+        if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Admin.fxml"));
         Stage window =(Stage) Admin.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load(), 1200,800));
-
+        }else{
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Incorrect data");
+        alert.setHeaderText(null);
+        alert.setContentText("Permision denied");
+        alert.show();
+        }
     }
 
     public void initialize() throws Exception{

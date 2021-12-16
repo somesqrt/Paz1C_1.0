@@ -100,13 +100,13 @@ public class PredajcaController {
     CategoriesDAO categoriesDAO = DaoFactory.INSTANCE.getcategoriesDAO();
     ArrayList<NowOrder> ordersDetail = new ArrayList<NowOrder>();
 
-    ObservableList<NowOrder> orders ;
-    ObservableList<ProductInOrderHelp> tableProductsInOrder ;
+    ObservableList<NowOrder> orders;
+    ObservableList<ProductInOrderHelp> tableProductsInOrder;
     ObservableList<ProductInOrder> productsInOrder;
     public static int count = 0;
     public static Stage windowCount = new Stage();
 
-    public void handlerPredajca() throws  Exception{
+    public void handlerPredajca() throws Exception {
 
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("predajca.fxml"));
         Stage window = (Stage) predajca.getScene().getWindow();
@@ -115,35 +115,53 @@ public class PredajcaController {
 
     }
 
-    public void hendlerVeduci() throws  Exception{
-
+    public void hendlerVeduci() throws Exception {
+        if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Veduci.fxml"));
         LoginController.stage.getScene().getWindow();
         LoginController.stage.setScene(new Scene(fxmlLoader.load(), 1200, 800));
-
+        }else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Incorrect data");
+            alert.setHeaderText(null);
+            alert.setContentText("Permision denied");
+            alert.show();
+        }
     }
 
-    public void hendlerSkladnik() throws  Exception{
-
+    public void hendlerSkladnik() throws Exception {
+            if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Skladnik.fxml"));
         LoginController.stage.getScene().getWindow();
         LoginController.stage.setScene(new Scene(fxmlLoader.load(), 1200, 800));
-
+            }else{
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Incorrect data");
+                alert.setHeaderText(null);
+                alert.setContentText("Permision denied");
+                alert.show();
+            }
     }
 
-    public void hendlerAdmin() throws  Exception{
-
+    public void hendlerAdmin() throws Exception {
+                if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Admin.fxml"));
-        Stage window =(Stage) Admin.getScene().getWindow();
-        window.setScene(new Scene(fxmlLoader.load(), 1200,800));
-
+        Stage window = (Stage) Admin.getScene().getWindow();
+        window.setScene(new Scene(fxmlLoader.load(), 1200, 800));
+                }else{
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Incorrect data");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Permision denied");
+                    alert.show();
+                }
     }
 
-    public void initialize(){
+    public void initialize() {
 
         ObservableList<String> categories = FXCollections.observableList(categoriesDAO.getALlNames());
         categories.add("ALL CATEGORIES");
-        if(producntCategory != null){
+        if (producntCategory != null) {
             producntCategory.setItems(categories);
         }
 
@@ -194,10 +212,10 @@ public class PredajcaController {
     }
 
     private void doubleClickListener2() {
-        allOrder.setRowFactory( tv -> {
+        allOrder.setRowFactory(tv -> {
             TableRow<AllOrderHelp> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     productInOrder = row.getItem();
                     try {
                         fullInfo();
@@ -206,11 +224,11 @@ public class PredajcaController {
                     }
                 }
             });
-            return row ;
+            return row;
         });
     }
 
-    public void fullInfo(){
+    public void fullInfo() {
 
         textID.setText(String.valueOf(productInOrder.getIdOrder()));
 
@@ -225,7 +243,7 @@ public class PredajcaController {
             ));
         }
 
-         tableProductsInOrder = FXCollections.observableList(orderHelps);
+        tableProductsInOrder = FXCollections.observableList(orderHelps);
 
         nameProductOrderTable.setCellValueFactory(new PropertyValueFactory<ProductInOrderHelp, String>("name"));
 
@@ -246,18 +264,16 @@ public class PredajcaController {
         );
 
 
-
-
         editingOrder.setItems(tableProductsInOrder);
 
     }
 
 
-    public void doubleClickListener() throws Exception{
-        tableProducts.setRowFactory( tv -> {
+    public void doubleClickListener() throws Exception {
+        tableProducts.setRowFactory(tv -> {
             TableRow<Product> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     product = row.getItem();
                     try {
                         addNowOrder();
@@ -266,27 +282,26 @@ public class PredajcaController {
                     }
                 }
             });
-            return row ;
+            return row;
         });
     }
 
-    public void addNowOrder() throws Exception{
+    public void addNowOrder() throws Exception {
 
         NowOrder newOrder = new NowOrder(product.getName(), "1", product.getPrice());
         NowOrder fordeleted = newOrder;
-        if(orders != null){
+        if (orders != null) {
             while (orders.contains(newOrder)) {
-                newOrder.setCount(String.valueOf(Integer.valueOf(newOrder.getCount())+1));
+                newOrder.setCount(String.valueOf(Integer.valueOf(newOrder.getCount()) + 1));
             }
-            if(orders.contains(fordeleted)) {
+            if (orders.contains(fordeleted)) {
                 orders.remove(fordeleted);
             }
         }
 
 
-
         ordersDetail.add(newOrder);
-        orders =FXCollections.observableList(ordersDetail);
+        orders = FXCollections.observableList(ordersDetail);
         nameOfProducntInOrder.setCellValueFactory(new PropertyValueFactory<NowOrder, String>("Name"));
 
         countOfProducntInOrder.setCellValueFactory(
@@ -315,14 +330,16 @@ public class PredajcaController {
         }*/
     }
 
-    public void cancelOrder(){
+    public void cancelOrder() {
 
         orders.removeAll();
         nowOrderTable.getItems().clear();
 
-    };
+    }
 
-    public void saveOrder(){
+    ;
+
+    public void saveOrder() {
         double sum = 0;
         HashMap<Product, Integer> productsInOrderNow = new HashMap<Product, Integer>();
         for (int i = 0; i < orders.size(); i++) {
@@ -346,9 +363,11 @@ public class PredajcaController {
         nowOrderTable.getItems().clear();
         initialize();
 
-    };
+    }
 
-    public void searchProduct() throws Exception{
+    ;
+
+    public void searchProduct() throws Exception {
         String nameOfProductSearch = "";
         String EANOfProductSearch = "";
         //String SKUOfProductSearch = "";
@@ -360,27 +379,27 @@ public class PredajcaController {
         EANOfProductSearch = "\'" + productEAN.getText() + "\'";
         categoriOfProductSearch = "\"" + producntCategory.getValue() + "\"";
 
-        if(!categoriOfProductSearch.equals("\"ALL CATEGORIES\"")){
+        if (!categoriOfProductSearch.equals("\"ALL CATEGORIES\"")) {
+            categoriOfProductSearch = String.valueOf(producntCategory.getValue());
             categoriOfProductSearch = String.valueOf(categoriesDAO.getByName(categoriOfProductSearch));
         }
 
 
-
-        if(!nameOfProductSearch.equals("") || !EANOfProductSearch.equals("") || !categoriOfProductSearch.equals("")) {
-            if(nameOfProductSearch.equals("''")){
+        if (!nameOfProductSearch.equals("") || !EANOfProductSearch.equals("") || !categoriOfProductSearch.equals("")) {
+            if (nameOfProductSearch.equals("''")) {
                 nameOfProductSearch = "name";
             }
-            if(EANOfProductSearch.equals("''")){
+            if (EANOfProductSearch.equals("''")) {
                 EANOfProductSearch = "EAN";
             }
-            if(categoriOfProductSearch.equals("\"null\"")){
+            if (categoriOfProductSearch.equals("\"null\"")) {
                 categoriOfProductSearch = "Categories";
             }
-            if(categoriOfProductSearch.equals("\"ALL CATEGORIES\"")){
+            if (categoriOfProductSearch.equals("\"ALL CATEGORIES\"")) {
                 categoriOfProductSearch = "Categories";
             }
             products = FXCollections.observableList(productDao.searchProduct(nameOfProductSearch, EANOfProductSearch, categoriOfProductSearch));
-        }else {
+        } else {
             products = FXCollections.observableList(productDao.getAll());
         }
 
@@ -397,7 +416,7 @@ public class PredajcaController {
 
     }
 
-    public void deleteOrder() throws Exception{
+    public void deleteOrder() throws Exception {
         orderDao.deleteOrderProduct(productInOrder.getIdOrder());
         orderDao.deleteOrder(productInOrder.getIdOrder());
         tableProductsInOrder.removeAll();
@@ -406,8 +425,8 @@ public class PredajcaController {
     }
 
 
-    public void saveEditingOrder() throws Exception{
-        UserDao userDao= DaoFactory.INSTANCE.getUserDao();
+    public void saveEditingOrder() throws Exception {
+        UserDao userDao = DaoFactory.INSTANCE.getUserDao();
         ArrayList<ProductInOrder> productInOrdersToUpdateArray = new ArrayList<>();
         double suma = 0;
         for (int i = 0; i < productsInOrder.size(); i++) {
@@ -422,7 +441,7 @@ public class PredajcaController {
             double c = Double.valueOf(tableProductsInOrder.get(i).getCount());
             double p = Double.valueOf(productDao.getbyId(productsInOrder.get(i).getIdproduct()).getPrice());
 
-            suma +=   Double.valueOf(tableProductsInOrder.get(i).getCount()) * Double.valueOf(productDao.getbyId(productsInOrder.get(i).getIdproduct()).getPrice());
+            suma += Double.valueOf(tableProductsInOrder.get(i).getCount()) * Double.valueOf(productDao.getbyId(productsInOrder.get(i).getIdproduct()).getPrice());
 
         }
         Order order = new Order(

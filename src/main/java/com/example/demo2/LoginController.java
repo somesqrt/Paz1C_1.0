@@ -62,7 +62,7 @@ public class LoginController {
                 if(passwordForLogin.equals(currentUser.getPassword())){
                     FXMLLoader fxmlLoader = null;
                     if (currentUser.getRole().getIdRole() == 1) {                           //разобраться как он сделал роли
-                        fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Login.fxml"));
+                        fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SkladnikNonAdmin.fxml"));
                     } else if (currentUser.getRole().getIdRole() == 2) {
                         fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Admin.fxml"));
                     } else if (currentUser.getRole().getIdRole() == 3) {

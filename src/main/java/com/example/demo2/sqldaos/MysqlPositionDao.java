@@ -246,6 +246,17 @@ public class MysqlPositionDao implements PositionDao {
             }
         });
     }
+    @Override
+    public List<String> getALlNames() throws EntityNotFoundException {
+        String sql = "SELECT name FROM products order by idProduct asc;";
+        return jdbcTemplate.query(sql, new RowMapper<String>() {
+            @Override
+            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+                String category = rs.getString("name");
+                return category;
+            }
+        });
+    }
 
     @Override
     public ProduktOnPositionHelp deleteInfo(ProduktOnPositionHelp produktOnPositionHelp) {

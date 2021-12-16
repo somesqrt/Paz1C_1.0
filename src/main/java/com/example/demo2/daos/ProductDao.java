@@ -3,6 +3,7 @@ package com.example.demo2.daos;
 
 
 
+import com.example.demo2.EntityNotFoundException;
 import com.example.demo2.classes.Categories;
 import com.example.demo2.classes.Position;
 import com.example.demo2.classes.Product;
@@ -17,7 +18,10 @@ public interface ProductDao {
     Product getbyId(Long id);
     List<Product> getbyCategory(Categories categories);
     Map<Product,Integer> productOnPosiiton(Position position);
-    boolean СapacityСheckProduct(Position position,Product product,int count);
+
+    List<String> getALlNames() throws EntityNotFoundException;
+
+    boolean СapacityСheckProduct(Position position, Product product, int count);
 
     Map<Product, Integer> productOnPosiiton(Long position);
 

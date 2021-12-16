@@ -102,21 +102,39 @@ public class SkladnikController {
 
     Categories categoriaForDelete;
 
-    public void handlerPredajca() throws  Exception{
+    CategoriesDAO categoriesDAO = DaoFactory.INSTANCE.getcategoriesDAO();
+    ProductDao productDao = DaoFactory.INSTANCE.getProductDao();
+    PositionDao positionDao = DaoFactory.INSTANCE.getPositionDao();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("predajca.fxml"));
-        Stage window = (Stage) predajca.getScene().getWindow();
-        window.setScene(new Scene(fxmlLoader.load(), 1200, 800));
+    public void handlerPredajca() throws  Exception{
+        if(LoginController.currentUser.getRole().getIdRole() == 2){
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("predajca.fxml"));
+            Stage window = (Stage) predajca.getScene().getWindow();
+            window.setScene(new Scene(fxmlLoader.load(), 1200, 800));
+        }else{
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Incorrect data");
+            alert.setHeaderText(null);
+            alert.setContentText("Permision denied");
+            alert.show();
+        }
+
 
 
     }
 
     public void hendlerVeduci() throws  Exception{
-
+        if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Veduci.fxml"));
         LoginController.stage.getScene().getWindow();
         LoginController.stage.setScene(new Scene(fxmlLoader.load(), 1200, 800));
-
+    }else{
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Incorrect data");
+        alert.setHeaderText(null);
+        alert.setContentText("Permision denied");
+        alert.show();
+    }
     }
 
     public void hendlerSkladnik() throws  Exception{
@@ -128,14 +146,38 @@ public class SkladnikController {
     }
 
     public void hendlerAdmin() throws  Exception{
-
+        if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Admin.fxml"));
         Stage window =(Stage) Admin.getScene().getWindow();
         window.setScene(new Scene(fxmlLoader.load(), 1200,800));
-
+    }else{
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Incorrect data");
+        alert.setHeaderText(null);
+        alert.setContentText("Permision denied");
+        alert.show();
+        }
     }
 
     public void initialize(){
+        ObservableList<String> categories = FXCollections.observableList(categoriesDAO.getALlNames());
+        categories.add("ALL CATEGORIES");
+        if (categoriaNewProdukt != null) {
+            categoriaNewProdukt.setItems(categories);
+        }
+
+        ObservableList<String> productsNames = FXCollections.observableList(productDao.getALlNames());
+        if (productOnNewPosition != null) {
+            productOnNewPosition.setItems(productsNames);
+        }
+
+        ObservableList<String> positionNames = FXCollections.observableList(positionDao.getALlNames());
+        if (posiciaOnNewPosition != null) {
+            posiciaOnNewPosition.setItems(positionNames);
+        }
+
+
+
         ProductDao productDao = DaoFactory.INSTANCE.getProductDao();
         CategoriesDAO categoriesDAO = DaoFactory.INSTANCE.getcategoriesDAO();
         PositionDao positionDao = DaoFactory.INSTANCE.getPositionDao();

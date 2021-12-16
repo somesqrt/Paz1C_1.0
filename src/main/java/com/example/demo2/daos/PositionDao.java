@@ -24,5 +24,7 @@ public interface PositionDao {
 
     List<ProduktOnPositionHelp> getAllInfoAboutOrderOnPosition();
 
+    List<String> getALlNames() throws EntityNotFoundException;
+
     ProduktOnPositionHelp deleteInfo(ProduktOnPositionHelp produktOnPositionHelp);
 }
