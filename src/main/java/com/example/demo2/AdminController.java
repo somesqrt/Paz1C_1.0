@@ -145,7 +145,7 @@ public class AdminController {
         String nameForSearchUser = "";
         String surnameForSearchUser = "";
         ObservableList<User> users;
-        if(!nameUserSearch.getText().equals("") && !surnameUserSearch.getText().equals("")) {
+        if(!nameUserSearch.getText().equals("") || !surnameUserSearch.getText().equals("")) {
             nameForSearchUser = nameUserSearch.getText();
             surnameForSearchUser = surnameUserSearch.getText();
              users = FXCollections.observableArrayList(userDao.searchUser(nameForSearchUser, surnameForSearchUser));

@@ -59,7 +59,8 @@ public class LoginController {
 
                 alert.showAndWait();
             } else {
-                if(passwordForLogin.equals(currentUser.getPassword())){
+                String hash = userDao.HashPassword(passwordForLogin);
+                if(hash.equals(currentUser.getPassword())){
                     FXMLLoader fxmlLoader = null;
                     if (currentUser.getRole().getIdRole() == 1) {                           //разобраться как он сделал роли
                         fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SkladnikNonAdmin.fxml"));

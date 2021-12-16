@@ -107,35 +107,74 @@ public class MysqlOrderDao implements OrderDao {
 
     @Override
     public Order createOrder(Order order) {
-
-
-
-        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
-        insert.withTableName("`order`");
-        insert.usingGeneratedKeyColumns("idOrder");
-        insert.usingColumns("Name", "Summ", "OrderStatus", "SalesMan");
-        MapSqlParameterSource namedParameters = new MapSqlParameterSource();
-        namedParameters.addValue("Name", order.getName());
-        namedParameters.addValue("Summ", order.getSumm());
-        namedParameters.addValue("OrderStatus", order.getOrderStatus());
-        namedParameters.addValue("SalesMan", order.getSalesMan().getIdUser());
-        /*        namedParameters .addValue("DateTime", formatter.format(order.getDateTime()));*/
-        Long idOfOrder = insert.executeAndReturnKey(namedParameters).longValue();
-
-        for (Product product : order.getProductsInOrder().keySet()) {
+        Long idOfOrder;
+        if (OrderControl(order) == true) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate);
+            insert.withTableName("`order`");
+            insert.usingGeneratedKeyColumns("idOrder");
+            insert.usingColumns("Name", "Summ", "OrderStatus", "SalesMan");
+            MapSqlParameterSource namedParameters = new MapSqlParameterSource();
+            namedParameters.addValue("Name", order.getName());
+            namedParameters.addValue("Summ", order.getSumm());
+            namedParameters.addValue("OrderStatus", order.getOrderStatus());
+            namedParameters.addValue("SalesMan", order.getSalesMan().getIdUser());
+            idOfOrder = insert.executeAndReturnKey(namedParameters).longValue();
             insert = new SimpleJdbcInsert(jdbcTemplate);
-            insert.withTableName("`productsinorder`");
-            insert.usingColumns("idOrder", "idProducts", "count");
-            namedParameters = new MapSqlParameterSource();
-            namedParameters.addValue("idOrder", idOfOrder);
-            namedParameters.addValue("idProducts", product.getIdProduct());
-            namedParameters.addValue("count", order.getProductsInOrder().get(product));
-            insert.execute(namedParameters);
+            for (Product product : order.getProductsInOrder().keySet()) {
+                Long position = DaoFactory.INSTANCE.getPositionDao().getIdPositionByProduct(product, order.getProductsInOrder().get(product));
+                insert.withTableName("`productsinorder`");
+                insert.usingColumns("idOrder", "idProducts", "count", "IdPosition");
+                namedParameters = new MapSqlParameterSource();
+                namedParameters.addValue("idOrder", idOfOrder);
+                namedParameters.addValue("idProducts", product.getIdProduct());
+                namedParameters.addValue("count", order.getProductsInOrder().get(product));
+                namedParameters.addValue("IdPosition", position);
+                insert.execute(namedParameters);
+                String sqlcountInPosition = "select count from prosuctonposition where idProduct = ? and idPosition = ?";
+                int countInPosition =jdbcTemplate.queryForObject(sqlcountInPosition, new RowMapper<Integer>() {
+                    @Override
+                    public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+                        int pocet = rs.getInt("count");
+                        return pocet;
+                    }
+                },product.getIdProduct(),position);
+                sqlcountInPosition = "UPDATE `prosuctonposition` SET  `count` = ? WHERE idProduct = ? and idPosition = ? ";
+                jdbcTemplate.update(sqlcountInPosition,countInPosition-order.getProductsInOrder().get(product),product.getIdProduct(),position);
+            }
+        } else {
+            throw new EntityNotFoundException("Order creation error\n"+"Order:"+order+"\n"+"contact the warehouse manager");
         }
-        return order;
+        return new Order(idOfOrder,order.getName(),order.getSumm(),order.getOrderStatus(),order.getSalesMan(),order.getProductsInOrder());
     }
 
 
+
+    public Boolean OrderControl(Order order) {
+        Boolean controla = true;
+        Map<Product, Integer> orderProduct = order.getProductsInOrder();
+        for (Product product : orderProduct.keySet()) {
+            Product product1 = product;
+            int pocet = orderProduct.get(product1);
+            String sql = "Select count(*) as controla from prosuctonposition where idProduct = ? and count>=?";
+            boolean resultfromdb = jdbcTemplate.queryForObject(sql, new RowMapper<Boolean>() {
+                @Override
+                public Boolean mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    int controlaCount = rs.getInt("controla");
+                    if (controlaCount >= 1) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }, product1.getIdProduct(), pocet);
+            if (resultfromdb == false) {
+                controla = false;
+                break;
+            }
+        }
+        return controla;
+    }
     @Override
     public Map<Product,Integer> getProductInOrder(Order order) {
         String sql = "SELECT * FROM paz1c_project.productsinorder where idOrder ="+order.getIdOrder();

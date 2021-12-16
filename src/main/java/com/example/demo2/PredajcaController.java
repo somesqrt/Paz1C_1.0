@@ -355,6 +355,7 @@ public class PredajcaController {
     public void saveOrder() {
         double sum = 0;
         HashMap<Product, Integer> productsInOrderNow = new HashMap<Product, Integer>();
+        System.out.println(productsInOrderNow);
         for (int i = 0; i < orders.size(); i++) {
             sum += orders.get(i).getPrice();
             productsInOrderNow.put(productDao.getByName(orders.get(i).getName()), Integer.valueOf(orders.get(i).getCount()));

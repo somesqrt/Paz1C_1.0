@@ -48,6 +48,15 @@ public class Order {
         DateTime = dateTime;
     }*/
 
+    public Order(Long idOrder, String name, double summ, String orderStatus, User salesMan, Map<Product, Integer> productsInOrder) {
+        this.idOrder = idOrder;
+        Name = name;
+        Summ = summ;
+        OrderStatus = orderStatus;
+        SalesMan = salesMan;
+        this.productsInOrder = productsInOrder;
+    }
+
     public Map<Product, Integer> getProductsInOrder() {
         return productsInOrder;
     }

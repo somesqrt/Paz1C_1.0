@@ -4,6 +4,8 @@ import com.example.demo2.classes.Roles;
 import com.example.demo2.classes.User;
 import com.example.demo2.daos.RoleDao;
 import com.example.demo2.daos.UserDao;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -33,12 +35,21 @@ public class UserEditController {
         editSurname.setText(user.getSurname());
         editDate.setText(user.getDateOfBirth().toString());
         editLogin.setText(user.getLogin());
+        ObservableList<String> options =
+                FXCollections.observableArrayList(
+                        "skladnik",
+                        "admin",
+                        "veduci",
+                        "predajca"
+                );
+        editRole.setItems(options);
         editRole.getSelectionModel().select(user.getRole().getRole());
 
     }
 
     public void reset() throws Exception {
-        user.setPassword("1111");
+        String hash = userDao.HashPassword("1111");
+        user.setPassword(hash);
         userDao.save(user);
     }
 

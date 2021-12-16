@@ -172,7 +172,7 @@ public class MysqlUserDao implements UserDao {
 
     @Override
     public List<User> searchUser(String name, String surname) {
-        return jdbcTemplate.query("select * from user where name like \"" + name + "\" and surname like \"" + surname + "\"", new RowMapper<User>() {
+        return jdbcTemplate.query("SELECT * FROM user where name like \"%"+name+"%\" and surname like \"%"+surname+"%\";", new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Long id = rs.getLong("idUser");
