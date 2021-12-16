@@ -36,14 +36,18 @@
                             <font>
                                 <Font name="Times New Roman Bold" size="13.0" />
                             </font></Button>
-                  <ImageView fx:id="changePassword" fitHeight="44.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../Icons/applicationssystem_103794.png" />
-                     </image>
+                  <Button mnemonicParsing="false" onAction="#changePasswordCurrent" prefHeight="43.0" prefWidth="92.0" stylesheets="@../../../styling/styling.css">
+                     <graphic>
+                        <ImageView fx:id="changePassword" fitHeight="44.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../Icons/applicationssystem_103794.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                      <VBox.margin>
-                        <Insets left="20.0" top="450.0" />
+                        <Insets top="450.0" />
                      </VBox.margin>
-                  </ImageView>
+                  </Button>
                     </children>
                 </VBox>
             </left>

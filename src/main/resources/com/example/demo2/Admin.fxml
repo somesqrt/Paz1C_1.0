@@ -37,7 +37,7 @@
                         <Font name="Times New Roman Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="Skladnik1" mnemonicParsing="false" onAction="#hendlerSkladnik" prefHeight="60.0" prefWidth="100.0" stylesheets="@../../../styling/styling.css" textFill="WHITE">
+                  <Button fx:id="Skladnik1" mnemonicParsing="false" onAction="#changePasswordCurrent" prefHeight="60.0" prefWidth="100.0" stylesheets="@../../../styling/styling.css" textFill="WHITE">
                      <font>
                         <Font name="Times New Roman Bold" size="13.0" />
                      </font>

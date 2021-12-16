@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter:5.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-api:5.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
@@ -38,6 +39,6 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-web:win:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-media:16" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-media:win:16" level="project" />
-    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="Maven: commons-codec:commons-codec:1.15" level="project" />
   </component>
 </module>

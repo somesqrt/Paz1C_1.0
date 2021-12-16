@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javax.management.relation.Role;
+import java.io.IOException;
 import java.util.Date;
 
 public class AdminController {
@@ -55,6 +56,16 @@ public class AdminController {
     public static Stage addingWindow = new Stage();
     public static Stage editingWindow = new Stage();
     UserDao userDao = DaoFactory.INSTANCE.getUserDao();
+
+    public void changePasswordCurrent() throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UpdatePassword.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+
+        LoginController.changeWindow.setTitle("Add user");
+        LoginController.changeWindow.setScene(new Scene(root));
+        LoginController.changeWindow.show();
+    }
 
     public void handlerPredajca() throws  Exception{
 

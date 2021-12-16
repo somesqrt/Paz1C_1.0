@@ -6,6 +6,9 @@ import java.util.List;
 
 public interface UserDao {
     List<User> getAll();
+
+    String HashPassword(String Pasword);
+
     User save(User user);
     User delete(Long id);
     User getByid(Long id) throws EntityNotFoundException;

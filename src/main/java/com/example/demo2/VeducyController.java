@@ -56,6 +56,15 @@ public class VeducyController {
 
     public static AllOrderHelp order = null;
 
+    public void changePasswordCurrent() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UpdatePassController.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+
+        LoginController.changeWindow.setTitle("Add user");
+        LoginController.changeWindow.setScene(new Scene(root));
+        LoginController.changeWindow.show();
+    }
+
     public void handlerPredajca() throws  Exception{
         if(LoginController.currentUser.getRole().getIdRole() == 2){
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("predajca.fxml"));

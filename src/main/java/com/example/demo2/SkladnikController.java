@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +21,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +108,15 @@ public class SkladnikController {
     ProductDao productDao = DaoFactory.INSTANCE.getProductDao();
     PositionDao positionDao = DaoFactory.INSTANCE.getPositionDao();
 
+    public void changePasswordCurrent() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UpdatePassController.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+
+        LoginController.changeWindow.setTitle("Add user");
+        LoginController.changeWindow.setScene(new Scene(root));
+        LoginController.changeWindow.show();
+    }
+
     public void handlerPredajca() throws  Exception{
         if(LoginController.currentUser.getRole().getIdRole() == 2){
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("predajca.fxml"));
@@ -167,13 +178,13 @@ public class SkladnikController {
         }
 
         ObservableList<String> productsNames = FXCollections.observableList(productDao.getALlNames());
-        if (productOnNewPosition != null) {
-            productOnNewPosition.setItems(productsNames);
+        if (posiciaOnNewPosition != null) {
+            posiciaOnNewPosition.setItems(productsNames);
         }
 
         ObservableList<String> positionNames = FXCollections.observableList(positionDao.getALlNames());
-        if (posiciaOnNewPosition != null) {
-            posiciaOnNewPosition.setItems(positionNames);
+        if (productOnNewPosition != null) {
+            productOnNewPosition.setItems(positionNames);
         }
 
 

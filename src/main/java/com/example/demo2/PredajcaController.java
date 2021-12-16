@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,6 +20,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -105,6 +107,17 @@ public class PredajcaController {
     ObservableList<ProductInOrder> productsInOrder;
     public static int count = 0;
     public static Stage windowCount = new Stage();
+
+
+
+    public void changePasswordCurrent() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UpdatePassController.fxml"));
+        Parent root = (Parent) fxmlLoader.load();
+
+        LoginController.changeWindow.setTitle("Add user");
+        LoginController.changeWindow.setScene(new Scene(root));
+        LoginController.changeWindow.show();
+    }
 
     public void handlerPredajca() throws Exception {
 

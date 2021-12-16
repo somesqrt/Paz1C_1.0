@@ -26,7 +26,7 @@ public class LoginController {
     public static User currentUser;
     public static Stage stage = new Stage();
     private String loginForLogin, passwordForLogin;
-
+    public static Stage changeWindow = new Stage();
     @FXML
     public void toSignup() throws Exception {   // логин юзера (переделать ДБ)
         UserDao userDao = DaoFactory.INSTANCE.getUserDao();

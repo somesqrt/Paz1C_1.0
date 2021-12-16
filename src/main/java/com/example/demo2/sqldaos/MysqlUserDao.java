@@ -43,6 +43,10 @@ public class MysqlUserDao implements UserDao {
         });
     }
 
+    @Override
+    public String HashPassword(String Pasword) {
+        return org.apache.commons.codec.digest.DigestUtils.sha1Hex(Pasword);
+    }
 
     @Override
     public User save(User user) {
