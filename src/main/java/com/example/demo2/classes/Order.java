@@ -3,6 +3,7 @@ package com.example.demo2.classes;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Order {
     private Long idOrder;
@@ -115,5 +116,18 @@ public class Order {
 /*                ", DateTime=" + DateTime +*/
                 ", productsInOrder=" + productsInOrder +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return Double.compare(order.Summ, Summ) == 0 && Objects.equals(idOrder, order.idOrder) && Name.equals(order.Name) && OrderStatus.equals(order.OrderStatus) && SalesMan.equals(order.SalesMan) && productsInOrder.equals(order.productsInOrder);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idOrder, Name, Summ, OrderStatus, SalesMan, productsInOrder);
     }
 }

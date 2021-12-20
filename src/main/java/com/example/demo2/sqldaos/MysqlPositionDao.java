@@ -272,7 +272,7 @@ public class MysqlPositionDao implements PositionDao {
             }
             if (countOnPosition == Integer.MIN_VALUE) {
                 String sql = "INSERT INTO prosuctonposition (`idProduct`, `idPosition`, `count`) VALUES (?,?,?);";
-                jdbcTemplate.update(sql, product.getIdProduct(), position.getIdPosiiton(), count+countOnPosition);
+                jdbcTemplate.update(sql, product.getIdProduct(), position.getIdPosiiton(), count);
             } else {
                 String sql = "UPDATE prosuctonposition SET count = ? WHERE idProduct = ? ;";
                 jdbcTemplate.update(sql, countOnPosition + count, product.getIdProduct());

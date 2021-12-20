@@ -2,6 +2,7 @@ package com.example.demo2.classes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Position {
     private Long idPosiiton;
@@ -141,5 +142,18 @@ public class Position {
                 ", BearingCapacity=" + BearingCapacity +
                 ", products=" + products +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Position)) return false;
+        Position position = (Position) o;
+        return floor == position.floor && positionNumber == position.positionNumber && Double.compare(position.height, height) == 0 && Double.compare(position.weight, weight) == 0 && Double.compare(position.length, length) == 0 && Double.compare(position.BearingCapacity, BearingCapacity) == 0 && Objects.equals(idPosiiton, position.idPosiiton) && shelf.equals(position.shelf) && products.equals(position.products);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idPosiiton, floor, positionNumber, shelf, height, weight, length, BearingCapacity, products);
     }
 }

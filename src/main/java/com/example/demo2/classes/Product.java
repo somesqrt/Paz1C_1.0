@@ -1,5 +1,7 @@
 package com.example.demo2.classes;
 
+import java.util.Objects;
+
 public class Product {
     private Long idProduct;
     private String Name;
@@ -169,5 +171,18 @@ public class Product {
                 ", piecesInPackage=" + piecesInPackage +
                 ", Categories=" + Categories +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Product)) return false;
+        Product product = (Product) o;
+        return Double.compare(product.weight, weight) == 0 && Double.compare(product.height, height) == 0 && Double.compare(product.length, length) == 0 && Double.compare(product.width, width) == 0 && price == product.price && piecesInPackage == product.piecesInPackage && Objects.equals(idProduct, product.idProduct) && Name.equals(product.Name) && Manufacture.equals(product.Manufacture) && EAN.equals(product.EAN) && Objects.equals(taste, product.taste) && Categories.equals(product.Categories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idProduct, Name, Manufacture, EAN, weight, taste, height, length, width, price, piecesInPackage, Categories);
     }
 }

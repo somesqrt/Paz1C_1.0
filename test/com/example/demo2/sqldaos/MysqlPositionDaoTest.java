@@ -58,8 +58,6 @@ class MysqlPositionDaoTest {
     @BeforeEach
     void setUp() {
         testPosition = new Position(1, 10, "c", 150.25, 130.25, 10, 5000);
-        product =productDao.save(product);
-        position =  positionDao.save(position);
     }
 
     @AfterEach
@@ -150,25 +148,51 @@ class MysqlPositionDaoTest {
     @Test
     void fullnessOfPositionV() {
         Position position = new Position(1, 10, "c", 150.25, 130.25, 10, 5000);
-        Product product = new Product("testProduct", "test", "fdsfsd", 130.25, 10, 150.25, 10, 130, 1, categoriesDAO
-                .getbyID(1L));
+        Categories cat =  new Categories("test1111111111111");
+        cat =  categoriesDAO.save(cat);
+        Product product = new Product("testProduct", "test", "fdsfsd", 130.25, 10, 150.25, 10, 130, 1,cat);
         position = positionDao.save(position);
-        Map<Position, Double> map = positionDao.fullnessOfPositionV();
-        for (Position position1: map.keySet())
+        product = productDao.save(product);
+        Map<Position,Double> full = positionDao.fullnessOfPositionV();
+        double fullnest = 0;
+        for(Position position1:full.keySet())
         {
-            if(position1.getIdPosiiton().equals(position))
-            {
-                assertEquals(map.get(position1),100);
+            if(position1.getIdPosiiton() == position.getIdPosiiton()){
+                fullnest = full.get(position1);
+                break;
             }
         }
-        map = positionDao.fullnessOfPositionV();
-        for (Position position1: map.keySet())
+        product.setCategories(cat);
+        product = productDao.save(product);
+        positionDao.setProductOnPosition(product,position,4);
+
+        full = positionDao.fullnessOfPositionV();
+        double fullnest1 = 0;
+        for(Position position1:full.keySet())
         {
-            if(position1.getIdPosiiton().equals(position))
-            {
-                assertEquals(map.get(position1),0);
+            if(position1.getIdPosiiton() == position.getIdPosiiton()){
+                fullnest1 = full.get(position1);
+                break;
             }
         }
+       assertNotEquals(fullnest,fullnest1);
+        positionDao.deleteInfo(new ProduktOnPositionHelp(String.valueOf(product.getIdProduct()),String.valueOf(position.getIdPosiiton()),4));
+        full = positionDao.fullnessOfPositionV();
+        double fullnest3 = 0;
+        for(Position position1:full.keySet())
+        {
+            if(position1.getIdPosiiton() == position.getIdPosiiton()){
+                fullnest3 = full.get(position1);
+                break;
+            }
+        }
+        assertEquals(fullnest3,fullnest);
+        Product deleta =  productDao.delete(product.getIdProduct());
+       assertEquals(deleta,product);
+       Categories catdelete = categoriesDAO.delete(cat.getIdCategories());
+       assertEquals(catdelete,cat);
+       Position posdelete = positionDao.delete(position.getIdPosiiton());
+       assertEquals(posdelete,position);
         deletable = false;
     }
 
