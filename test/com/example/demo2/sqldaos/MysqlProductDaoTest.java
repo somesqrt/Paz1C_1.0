@@ -24,14 +24,19 @@ class MysqlProductDaoTest {
     PositionDao positionDao;
 
     CategoriesDAO categoriesDAO;
+
+    private  Categories categoria = new Categories(
+            "asdasdas"
+    );
+
     private Product product = new Product(
             "testName",
             "testManufakture",
             "12354223",
-            123.1,
-            4532.3,
-            23.3,
-            543.6,
+            1.1,
+            11.3,
+            1.3,
+            1.6,
             59,
             3,
             new Categories(4L, "BUQN")
@@ -40,11 +45,12 @@ class MysqlProductDaoTest {
             3,
             6,
             "asd",
-            234.5,
-            23.8,
-            987.3
+            2341.5,
+            2311.8,
+            9871.3,
+            10001
     );
-    private int count = 3142;
+    private int count = 3;
 
     public MysqlProductDaoTest() {
         DaoFactory.INSTANCE.testing();
@@ -63,9 +69,9 @@ class MysqlProductDaoTest {
                 "23432432",
                 233.5,
                 "testTaste",
-                123.4,
-                324.56,
-                35445.2,
+                1.4,
+                1.56,
+                1.2,
                 4,
                 2,
                 new Categories(1L, "AAAJQDXMRVHYII")
@@ -84,15 +90,17 @@ class MysqlProductDaoTest {
 
     @Test
     void save() {
+        categoria = categoriesDAO.save(categoria);
+        product.setCategories(categoria);
         List<Product> all = productDao.getAll();
-        Product savedProduct = productDao.save(testProduct);
-        testProduct.setIdProduct(savedProduct.getIdProduct());
-        assertEquals(testProduct.getIdProduct(), savedProduct.getIdProduct());
+        product = productDao.save(product);
+        assertEquals(product.getIdProduct(), product.getIdProduct());
         assertEquals(all.size() + 1, productDao.getAll().size());
-        savedProduct.setName("testuu");
-        Product savedProduct1 = productDao.save(savedProduct);
-        assertEquals(savedProduct1.getIdProduct(), savedProduct.getIdProduct());
-        productDao.delete(savedProduct.getIdProduct());
+        product.setName("testuu");
+        Product savedProduct1 = productDao.save(product);
+        assertEquals(savedProduct1.getIdProduct(), product.getIdProduct());
+        productDao.delete(product.getIdProduct());
+        categoria = categoriesDAO.delete(categoria.getIdCategories());
     }
 
     @Test
@@ -110,10 +118,11 @@ class MysqlProductDaoTest {
                 productDao.delete(-1L);
             }
         });
-
-        Product save = productDao.save(testProduct);
-        Product delete = productDao.delete(save.getIdProduct());
-        assertEquals(save.getIdProduct(), delete.getIdProduct());
+        categoria = categoriesDAO.save(categoria);
+        product.setCategories(categoria);
+        product = productDao.save(product);
+        Product delete = productDao.delete(product.getIdProduct());
+        assertEquals(product.getIdProduct(), delete.getIdProduct());
 
         assertThrows(EntityNotFoundException.class, new Executable() {
             @Override
@@ -121,6 +130,7 @@ class MysqlProductDaoTest {
                 productDao.delete(delete.getIdProduct());
             }
         });
+        categoria = categoriesDAO.delete(categoria.getIdCategories());
     }
 
     @Test
@@ -138,15 +148,15 @@ class MysqlProductDaoTest {
                 productDao.getbyId((long) (all.size() + 1));
             }
         });
-
-        Product savedproduct = productDao.save(testProduct);
-        testProduct.setIdProduct(savedproduct.getIdProduct());
-        Product getbyID = productDao.getbyId(savedproduct.getIdProduct());
-        Product deleteProduct = productDao.delete(savedproduct.getIdProduct());
+        categoria = categoriesDAO.save(categoria);
+        product.setCategories(categoria);
+        product = productDao.save(product);
+        Product getbyID = productDao.getbyId(product.getIdProduct());
+        Product deleteProduct = productDao.delete(product.getIdProduct());
 
         assertEquals(getbyID.getIdProduct(), deleteProduct.getIdProduct());
-        assertEquals(getbyID.getIdProduct(), savedproduct.getIdProduct());
-
+        assertEquals(getbyID.getIdProduct(), product.getIdProduct());
+        categoria = categoriesDAO.delete(categoria.getIdCategories());
     }
 
     @Test
@@ -157,25 +167,27 @@ class MysqlProductDaoTest {
                 productDao.getbyId(null);
             }
         });
-
-        Product saveProduct = productDao.save(testProduct);
-        List<Product> products = productDao.getbyCategory(testProduct.getCategories());
+        categoria = categoriesDAO.save(categoria);
+        product.setCategories(categoria);
+        product = productDao.save(product);
+        List<Product> products = productDao.getbyCategory(product.getCategories());
         assertNotNull(products);
         for (int i = 0; i < products.size(); i++) {
             assertNotNull(products.get(i));
         }
         assertTrue(products.size()>0);
-        productDao.delete(saveProduct.getIdProduct());
+        productDao.delete(product.getIdProduct());
+        categoria = categoriesDAO.delete(categoria.getIdCategories());
     }
 
     @Test
     void productOnPosiiton() {
         //Categories testCategories = categoriesDAO.save(5L,"TestCategories");
-
+        categoria = categoriesDAO.save(categoria);
+        product.setCategories(categoria);
         //product.setIdProduct(1L);
-        Product save = productDao.save(product);
-        product.setIdProduct(save.getIdProduct());
-        position.setIdPosiiton(1L);
+        product = productDao.save(product);
+        position = positionDao.save(position);
         positionDao.setProductOnPosition(product, position, count);
         Map<Product, Integer> productIntegerMap = productDao.productOnPosiiton(position);
         assertNotNull(productIntegerMap);
@@ -184,15 +196,18 @@ class MysqlProductDaoTest {
                 String.valueOf(position.getIdPosiiton()),
                 count
         ));
-        productDao.delete(save.getIdProduct());
+        position = positionDao.delete(position.getIdPosiiton());
+        productDao.delete(product.getIdProduct());
+        categoria = categoriesDAO.delete(categoria.getIdCategories());
         //categoriesDAO.delete(testCategories.getIdCategories());
 
     }
-
     @Test
     void searchProduct() {
-        Product saved = productDao.save(testProduct);
-        testProduct.setIdProduct(saved.getIdProduct());
+        categoria = categoriesDAO.save(categoria);
+        product.setCategories(categoria);
+        product = productDao.save(product);
+        testProduct.setIdProduct(product.getIdProduct());
         List<Product> products = productDao.searchProduct("\"" + testProduct.getName() + "\"", "\"" + testProduct.getEAN() + "\"", "\"" + testProduct.getCategories().getCategoria() + "\"");
         assertNotNull(products);
         assertTrue(products.size() >= 0);
@@ -201,6 +216,7 @@ class MysqlProductDaoTest {
         }
 
         productDao.delete(testProduct.getIdProduct());
+        categoria = categoriesDAO.delete(categoria.getIdCategories());
     }
 
     @Test
@@ -217,14 +233,17 @@ class MysqlProductDaoTest {
                 productDao.getByName(null);
             }
         });
+        categoria = categoriesDAO.save(categoria);
+        product.setCategories(categoria);
+        product = productDao.save(product);
 
-        Product savedproduct = productDao.save(testProduct);
-        testProduct.setIdProduct(savedproduct.getIdProduct());
-        Product getByName = productDao.getByName(savedproduct.getName());
-        Product deleteProduct = productDao.delete(savedproduct.getIdProduct());
+        String names = product.getName();
+        Product getByName = productDao.getByName(product.getName());
+        Product deleteProduct = productDao.delete(product.getIdProduct());
 
         assertEquals(getByName.getIdProduct(), deleteProduct.getIdProduct());
-        assertEquals(getByName.getIdProduct(), savedproduct.getIdProduct());
+        assertEquals(getByName.getIdProduct(), product.getIdProduct());
+        categoria = categoriesDAO.delete(categoria.getIdCategories());
 
     }
 }

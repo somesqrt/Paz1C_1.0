@@ -26,27 +26,32 @@ class MysqlPositionDaoTest {
     CategoriesDAO categoriesDAO;
     boolean deletable = true;
 
+    private  Categories categoria = new Categories(
+            "asdasdas"
+    );
+
     private Product product = new Product(
             "testName",
             "testManufakture",
             "12354223",
-            123.1,
-            4532.3,
-            23.3,
-            543.6,
+            1.1,
+            4.3,
+            2.3,
+            5.6,
             59,
             3,
-            new Categories("TestCategories")
+            new Categories(4L, "BUQN")
     );
     private Position position = new Position(
             3,
             6,
             "asd",
-            234.5,
-            23.8,
-            987.3,100
+            23412.5,
+            2322.8,
+            98722.3,
+            1000221
     );
-    private int count = 3142;
+    private int count = 3;
 
     public MysqlPositionDaoTest() {
         DaoFactory.INSTANCE.testing();
@@ -205,9 +210,21 @@ class MysqlPositionDaoTest {
         assertEquals(capacity, capacityFromMethod);
     }
 
+
+
+    @Test
+    void getAllInfoAboutOrderOnPosition(){
+        List<ProduktOnPositionHelp> allInfoAboutOrderOnPosition = positionDao.getAllInfoAboutOrderOnPosition();
+        assertNotNull(allInfoAboutOrderOnPosition);
+        assertTrue(allInfoAboutOrderOnPosition.size()>=0);
+    }
     @Test
     void setProductOnPosition(){
-       /* List<ProduktOnPositionHelp> info= positionDao.getAllInfoAboutOrderOnPosition();
+        categoria = categoriesDAO.save(categoria);
+        product.setCategories(categoria);
+        product = productDao.save(product);
+        position = positionDao.save(position);
+        List<ProduktOnPositionHelp> info= positionDao.getAllInfoAboutOrderOnPosition();
         positionDao.setProductOnPosition(product,position,count);
         List<ProduktOnPositionHelp> info2= positionDao.getAllInfoAboutOrderOnPosition();
         assertTrue(info.size()<info2.size());
@@ -215,16 +232,9 @@ class MysqlPositionDaoTest {
                 String.valueOf(product.getIdProduct()),
                 String.valueOf(position.getIdPosiiton()),
                 count
-        ));*/
-
-        positionDao.setProductOnPosition(product,position,1);
-
-    }
-
-    @Test
-    void getAllInfoAboutOrderOnPosition(){
-        List<ProduktOnPositionHelp> allInfoAboutOrderOnPosition = positionDao.getAllInfoAboutOrderOnPosition();
-        assertNotNull(allInfoAboutOrderOnPosition);
-        assertTrue(allInfoAboutOrderOnPosition.size()>=0);
+        ));
+        position = positionDao.delete(position.getIdPosiiton());
+        product = productDao.delete(product.getIdProduct());
+        categoria = categoriesDAO.delete(categoria.getIdCategories());
     }
 }
