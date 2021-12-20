@@ -44,7 +44,7 @@ class MysqlPositionDaoTest {
             "asd",
             234.5,
             23.8,
-            987.3
+            987.3,100
     );
     private int count = 3142;
 
@@ -58,6 +58,8 @@ class MysqlPositionDaoTest {
     @BeforeEach
     void setUp() {
         testPosition = new Position(1, 10, "c", 150.25, 130.25, 10, 5000);
+        product =productDao.save(product);
+        position =  positionDao.save(position);
     }
 
     @AfterEach
@@ -181,9 +183,7 @@ class MysqlPositionDaoTest {
 
     @Test
     void setProductOnPosition(){
-        product.setIdProduct(1L);
-        position.setIdPosiiton(1L);
-        List<ProduktOnPositionHelp> info= positionDao.getAllInfoAboutOrderOnPosition();
+       /* List<ProduktOnPositionHelp> info= positionDao.getAllInfoAboutOrderOnPosition();
         positionDao.setProductOnPosition(product,position,count);
         List<ProduktOnPositionHelp> info2= positionDao.getAllInfoAboutOrderOnPosition();
         assertTrue(info.size()<info2.size());
@@ -191,8 +191,9 @@ class MysqlPositionDaoTest {
                 String.valueOf(product.getIdProduct()),
                 String.valueOf(position.getIdPosiiton()),
                 count
-        ));
+        ));*/
 
+        positionDao.setProductOnPosition(product,position,1);
 
     }
 

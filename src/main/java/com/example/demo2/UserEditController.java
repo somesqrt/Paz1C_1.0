@@ -63,18 +63,17 @@ public class UserEditController {
     public void saveEditUser() throws Exception{
         RoleDao roleDao = DaoFactory.INSTANCE.getRoleDao();
         long numberRoly = roleDao.getByString(String.valueOf(editRole.getValue())).getIdRole();
-
         String name = editName.getText();
         String surname = editSurname.getText();
         //Date nDate = date.parse(newDate.getText());
-        Date nDate = new SimpleDateFormat("dd/MM/yyyy").parse(editDate.getText());
+        Date nDate = new SimpleDateFormat("yyyy-MM-dd").parse(editDate.getText());
         String login = editLogin.getText();
         String password = user.getPassword();
         Roles nRole = new Roles(1 ,String.valueOf(editRole.getValue()));
         nRole.setIdRole(numberRoly);
-
+        Long id = user.getIdUser();
         User user = new User(
-                null,
+               id,
                 name,
                 surname,
                 nDate,
@@ -83,8 +82,8 @@ public class UserEditController {
                 nRole);
 
         userDao.save(user);
-
         AdminController.addingWindow.fireEvent(new WindowEvent(AdminController.addingWindow, WindowEvent.WINDOW_CLOSE_REQUEST));
+
     }
 
 }

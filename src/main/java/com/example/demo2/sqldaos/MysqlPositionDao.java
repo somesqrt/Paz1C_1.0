@@ -53,7 +53,7 @@ public class MysqlPositionDao implements PositionDao {
                     Long idProduct = rs.getLong("idProduct");
                     int count = rs.getInt("count");
 
-                    // position.getProducts().put(DaoFactory.INSTANCE.getProductDao().getbyId(idProduct), count);
+                     position.getProducts().put(DaoFactory.INSTANCE.getProductDao().getbyId(idProduct), count);
                 }
                 return positionList;
             }
@@ -227,32 +227,83 @@ public class MysqlPositionDao implements PositionDao {
             }
         });
     }
-
+    public boolean СapacityСheckProduct(Position position, Product product, int count) {
+        double productCapacity = product.getHeight() * product.getWidth() * product.getLength() * count;
+        double productCapacityM = product.getWeight() * count;
+        double positionCapacity = DaoFactory.INSTANCE.getPositionDao().getСapacityOfPositionV(position.getIdPosiiton());
+        double positionCapacityM = DaoFactory.INSTANCE.getPositionDao().getById(position.getIdPosiiton()).getBearingCapacity();
+        List<Position> positionList = DaoFactory.INSTANCE.getPositionDao().getAll();
+        Map<Product, Integer> allProductOnPosition = new HashMap<>();
+        for (int i = 0; i < positionList.size(); i++) {
+            if (positionList.get(i).getIdPosiiton() == position.getIdPosiiton()) {
+                allProductOnPosition = positionList.get(i).getProducts();
+                break;
+            }
+        }
+        double fullnestOfPosition = 0;
+        double fullnestOfPositionM = 0;
+        for (Product product1 : allProductOnPosition.keySet()) {
+            fullnestOfPosition += (product1.getHeight() * product1.getWidth() * product1.getLength()) * allProductOnPosition.get(product1);
+            fullnestOfPositionM += product1.getWeight() * allProductOnPosition.get(product1);
+        }
+        if (positionCapacity - fullnestOfPosition >= productCapacity && positionCapacityM - fullnestOfPositionM >= productCapacityM) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     @Override
     public void setProductOnPosition(Product product, Position position, int count) {
-        String sql = "INSERT INTO prosuctonposition(idProduct, idPosition, count) VALUE(?,?,?)";
-        jdbcTemplate.update(sql, product.getIdProduct(), position.getIdPosiiton(), count);
+        if (СapacityСheckProduct(position, product, count)) {
+            List<Position> positionList = DaoFactory.INSTANCE.getPositionDao().getAll();
+            Map<Product, Integer> allProductOnPosition = new HashMap<>();
+            for (int i = 0; i < positionList.size(); i++) {
+                if (positionList.get(i).getIdPosiiton() == position.getIdPosiiton()) {
+                    allProductOnPosition = positionList.get(i).getProducts();
+                    break;
+                }
+            }
+            int countOnPosition = Integer.MIN_VALUE;
+            for (Product product1 : allProductOnPosition.keySet()) {
+                if (product1.getIdProduct() == product.getIdProduct()) {
+                    countOnPosition = allProductOnPosition.get(product1);
+                    break;
+                }
+            }
+            if (countOnPosition == Integer.MIN_VALUE) {
+                String sql = "INSERT INTO prosuctonposition (`idProduct`, `idPosition`, `count`) VALUES (?,?,?);";
+                jdbcTemplate.update(sql, product.getIdProduct(), position.getIdPosiiton(), count+countOnPosition);
+            } else {
+                String sql = "UPDATE prosuctonposition SET count = ? WHERE idProduct = ? ;";
+                jdbcTemplate.update(sql, countOnPosition + count, product.getIdProduct());
+            }
+        } else {
+            throw new EntityNotFoundException("produkt nie je mozne vllozit na poziciu");
+        }
     }
 
     @Override
     public List<ProduktOnPositionHelp> getAllInfoAboutOrderOnPosition() {
-        return jdbcTemplate.query("select * from prosuctonposition", new RowMapper<ProduktOnPositionHelp>() {
+        return jdbcTemplate.query("SELECT idProduct,idPosition,count,floor,positionNumber,shelf FROM prosuctonposition join positions on positions.id = prosuctonposition.idPosition;", new RowMapper<ProduktOnPositionHelp>() {
             @Override
             public ProduktOnPositionHelp mapRow(ResultSet rs, int rowNum) throws SQLException {
                 String name = rs.getString("idProduct");
-                String surname = rs.getString("IdPosition");
                 int count = rs.getInt("count");
-                return new ProduktOnPositionHelp(name, surname, count);
+                String floor = rs.getString("floor");
+                String positionNumber =rs.getString("positionNumber");
+                String shelf = rs.getString("shelf");
+
+                return new ProduktOnPositionHelp(name, floor+""+shelf+""+positionNumber, count);
             }
         });
     }
     @Override
     public List<String> getALlNames() throws EntityNotFoundException {
-        String sql = "SELECT name FROM products order by idProduct asc;";
+        String sql = "SELECT positionNumber FROM positions order by id asc;";
         return jdbcTemplate.query(sql, new RowMapper<String>() {
             @Override
             public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-                String category = rs.getString("name");
+                String category = rs.getString("positionNumber");
                 return category;
             }
         });

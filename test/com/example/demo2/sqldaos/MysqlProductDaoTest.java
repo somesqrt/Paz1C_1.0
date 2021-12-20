@@ -190,22 +190,6 @@ class MysqlProductDaoTest {
     }
 
     @Test
-    void сapacityСheckProduct() {
-    }
-
-    @Test
-    void testProductOnPosiiton() {
-    }
-
-    @Test
-    void putProductOnPosition() {
-    }
-
-    @Test
-    void transferProductOnAnotherPosition() {
-    }
-
-    @Test
     void searchProduct() {
         Product saved = productDao.save(testProduct);
         testProduct.setIdProduct(saved.getIdProduct());

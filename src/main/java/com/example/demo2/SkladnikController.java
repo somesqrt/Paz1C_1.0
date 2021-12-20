@@ -3,11 +3,9 @@ package com.example.demo2;
 import com.example.demo2.classes.Categories;
 import com.example.demo2.classes.Position;
 import com.example.demo2.classes.Product;
-import com.example.demo2.classes.User;
 import com.example.demo2.daos.CategoriesDAO;
 import com.example.demo2.daos.PositionDao;
 import com.example.demo2.daos.ProductDao;
-import com.example.demo2.help.ProductHelp;
 import com.example.demo2.help.ProduktOnPositionHelp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,7 +26,7 @@ import java.util.List;
 public class SkladnikController {
 
     @FXML
-    TextField nameNewProdukt, manufaktureNewProdukt, EANNewProdukt, tasteNewProdukt, weightNewProdukt, lenghtNewProdukt, heightNewProdukt, widthNewProdukt, priceNewProdukt, piecesNewProdukt, nameNewCategoria, floorNewPosition, numberNewPosition, shelfNewPosition, heightNewPosition, weightNewPosition, lenghtNewPosition, countOnNewPosicia;
+    TextField nameNewProdukt, manufaktureNewProdukt, EANNewProdukt, tasteNewProdukt, weightNewProdukt, lenghtNewProdukt, heightNewProdukt, widthNewProdukt, priceNewProdukt, piecesNewProdukt, nameNewCategoria, floorNewPosition, numberNewPosition, shelfNewPosition, heightNewPosition, weightNewPosition, lenghtNewPosition, countOnNewPosicia,bearingCapacityNewPosition;
 
     @FXML
     ComboBox categoriaNewProdukt, productOnNewPosition, posiciaOnNewPosition;
@@ -37,32 +35,32 @@ public class SkladnikController {
     Button predajca, veduci, Admin, searchProduct;
 
     @FXML
-    private TableView<ProductHelp> productsSkladnik;
+    private TableView<Product> productsSkladnik;
 
     @FXML
-    private TableColumn<ProductHelp, Long> IDProductSkladnik;
+    private TableColumn<Product, Long> IDProductSkladnik;
     @FXML
-    private TableColumn<ProductHelp, String> nameSkladnik;
+    private TableColumn<Product, String> nameSkladnik;
     @FXML
-    private TableColumn<ProductHelp, String> manufactureSkladnik;
+    private TableColumn<Product, String> manufactureSkladnik;
     @FXML
-    private TableColumn<ProductHelp, String> eanSkladnik;
+    private TableColumn<Product, String> eanSkladnik;
     @FXML
-    private TableColumn<ProductHelp, Double> weightSkladnik;
+    private TableColumn<Product, Double> weightSkladnik;
     @FXML
-    private TableColumn<ProductHelp, String> tasteSkladnik;
+    private TableColumn<Product, String> tasteSkladnik;
     @FXML
-    private TableColumn<ProductHelp, Double> heightSkladnik;
+    private TableColumn<Product, Double> heightSkladnik;
     @FXML
-    private TableColumn<ProductHelp, Double> lenghtSkladnik;
+    private TableColumn<Product, Double> lenghtSkladnik;
     @FXML
-    private TableColumn<ProductHelp, Double> widthSkladnik;
+    private TableColumn<Product, Double> widthSkladnik;
     @FXML
-    private TableColumn<ProductHelp, Integer> priceSkladnik;
+    private TableColumn<Product, Integer> priceSkladnik;
     @FXML
-    private TableColumn<ProductHelp, Integer> piecesSkladnik;
+    private TableColumn<Product, Integer> piecesSkladnik;
     @FXML
-    private TableColumn<ProductHelp, String> categoriaSkladnik;
+    private TableColumn<Product, String> categoriaSkladnik;
 
     @FXML
     private TableView<Categories> categoriesTableSkladnik;
@@ -178,13 +176,14 @@ public class SkladnikController {
         }
 
         ObservableList<String> productsNames = FXCollections.observableList(productDao.getALlNames());
-        if (posiciaOnNewPosition != null) {
-            posiciaOnNewPosition.setItems(productsNames);
+        System.out.println(productsNames);
+        if (productOnNewPosition != null) {
+            productOnNewPosition.setItems(productsNames);
         }
 
         ObservableList<String> positionNames = FXCollections.observableList(positionDao.getALlNames());
-        if (productOnNewPosition != null) {
-            productOnNewPosition.setItems(positionNames);
+        if (posiciaOnNewPosition != null) {
+            posiciaOnNewPosition.setItems(positionNames);
         }
 
 
@@ -195,39 +194,22 @@ public class SkladnikController {
 
 
         List<Product> productsWithoutNormalCategories = productDao.getAll();
-        ArrayList<ProductHelp> productsWithNormalCategories = new ArrayList<>();
 
-        for (int i = 0; i < productsWithoutNormalCategories.size(); i++) {
-            Product product = productsWithoutNormalCategories.get(i);
-            productsWithNormalCategories.add(new ProductHelp(
-                    product.getIdProduct(),
-                    product.getName(),
-                    product.getManufacture(),
-                    product.getEAN(),
-                    product.getWeight(),
-                    product.getTaste(),
-                    product.getHeight(),
-                    product.getLength(),
-                    product.getWidth(),
-                    product.getPrice(),
-                    product.getPiecesInPackage(),
-                    product.getCategories().getCategoria()
-            ));
-        }
 
-        ObservableList<ProductHelp> products = FXCollections.observableArrayList(productsWithNormalCategories);
-        IDProductSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, Long>("idProduct"));
-        nameSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, String>("name"));
-        manufactureSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, String>("manufacture"));
-        eanSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, String>("EAN"));
-        weightSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, Double>("weight"));
-        tasteSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, String>("taste"));
-        heightSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, Double>("height"));
-        lenghtSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, Double>("length"));
-        widthSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, Double>("width"));
-        priceSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, Integer>("price"));
-        piecesSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, Integer>("piecesInPackage"));
-        categoriaSkladnik.setCellValueFactory(new PropertyValueFactory<ProductHelp, String>("Categories"));
+
+        ObservableList<Product> products = FXCollections.observableArrayList(productsWithoutNormalCategories);
+        IDProductSkladnik.setCellValueFactory(new PropertyValueFactory<Product, Long>("idProduct"));
+        nameSkladnik.setCellValueFactory(new PropertyValueFactory<Product, String>("name"));
+        manufactureSkladnik.setCellValueFactory(new PropertyValueFactory<Product, String>("manufacture"));
+        eanSkladnik.setCellValueFactory(new PropertyValueFactory<Product, String>("EAN"));
+        weightSkladnik.setCellValueFactory(new PropertyValueFactory<Product, Double>("weight"));
+        tasteSkladnik.setCellValueFactory(new PropertyValueFactory<Product, String>("taste"));
+        heightSkladnik.setCellValueFactory(new PropertyValueFactory<Product, Double>("height"));
+        lenghtSkladnik.setCellValueFactory(new PropertyValueFactory<Product, Double>("length"));
+        widthSkladnik.setCellValueFactory(new PropertyValueFactory<Product, Double>("width"));
+        priceSkladnik.setCellValueFactory(new PropertyValueFactory<Product, Integer>("price"));
+        piecesSkladnik.setCellValueFactory(new PropertyValueFactory<Product, Integer>("piecesInPackage"));
+        categoriaSkladnik.setCellValueFactory(new PropertyValueFactory<Product, String>("Categories"));
 
         productsSkladnik.setItems(products);
 
@@ -262,16 +244,16 @@ public class SkladnikController {
         List<ProduktOnPositionHelp> BadNames = positionDao.getAllInfoAboutOrderOnPosition();
         ArrayList<ProduktOnPositionHelp> NiceName = new ArrayList<>();
 
-        for (int i = 0; i < BadNames.size(); i++) {
+       /* for (int i = 0; i < BadNames.size(); i++) {
             NiceName.add(new ProduktOnPositionHelp(
                     productDao.getbyId(Long.valueOf(BadNames.get(i).getName())).getName(),
                     String.valueOf(positionDao.getById(Long.valueOf(BadNames.get(i).getNumber())).getPositionNumber()),
                     BadNames.get(i).getCount()
 
             ));
-        }
+        }*/
 
-        ObservableList<ProduktOnPositionHelp> infoAboutProductOnPosition= FXCollections.observableList(NiceName);
+        ObservableList<ProduktOnPositionHelp> infoAboutProductOnPosition= FXCollections.observableList(BadNames);
 
         productOrderOnPositionSkladnik.setCellValueFactory(new PropertyValueFactory<ProduktOnPositionHelp, String>("name"));
         poziciaOrderOnPositionSkladnik.setCellValueFactory(new PropertyValueFactory<ProduktOnPositionHelp, String>("number"));
@@ -294,9 +276,9 @@ public class SkladnikController {
                     nameNewProdukt.getText(),
                     manufaktureNewProdukt.getText(),
                     EANNewProdukt.getText(),
-                    Double.valueOf(weightNewPosition.getText()),
+                    Double.valueOf(weightNewProdukt.getText()),
                     Double.valueOf(heightNewProdukt.getText()),
-                    Double.valueOf(lenghtNewPosition.getText()),
+                    Double.valueOf(lenghtNewProdukt.getText()),
                     Double.valueOf(widthNewProdukt.getText()),
                     Integer.valueOf(priceNewProdukt.getText()),
                     Integer.valueOf(piecesNewProdukt.getText()),
@@ -334,9 +316,10 @@ public class SkladnikController {
                     Integer.valueOf(floorNewPosition.getText()),
                     Integer.valueOf(numberNewPosition.getText()),
                     shelfNewPosition.getText(),
-                    Integer.valueOf(heightNewPosition.getText()),
-                    Integer.valueOf(weightNewPosition.getText()),
-                    Integer.valueOf(lenghtNewPosition.getText())
+                    Double.valueOf(heightNewPosition.getText()),
+                    Double.valueOf(weightNewPosition.getText()),
+                    Double.valueOf(lenghtNewPosition.getText()),
+                    Double.valueOf(bearingCapacityNewPosition.getText())
             );
             PositionDao positionDao = DaoFactory.INSTANCE.getPositionDao();
             positionDao.save(position);

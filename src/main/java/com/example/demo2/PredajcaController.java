@@ -27,7 +27,7 @@ import java.util.*;
 public class PredajcaController {
 
     public static Product product = null;
-    public static AllOrderHelp productInOrder = null;
+    public static Order productInOrder = null;
     public static NowOrder nowOrder = null;
     ProductDao productDao = DaoFactory.INSTANCE.getProductDao();
     @FXML
@@ -43,7 +43,7 @@ public class PredajcaController {
     ChoiceBox producntCategory;
 
     @FXML
-    private TableView<AllOrderHelp> allOrder;
+    private TableView<Order> allOrder;
 
     @FXML
     private TableColumn<Order, Long> idOrderTable;
@@ -111,7 +111,7 @@ public class PredajcaController {
 
 
     public void changePasswordCurrent() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UpdatePassController.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("UpdatePassword.fxml"));
         Parent root = (Parent) fxmlLoader.load();
 
         LoginController.changeWindow.setTitle("Add user");
@@ -186,7 +186,7 @@ public class PredajcaController {
         tasteOfProduct.setCellValueFactory(new PropertyValueFactory<Product, Date>("taste"));
         manufactureOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("Manufacture"));
         countProductPieces.setCellValueFactory(new PropertyValueFactory<Product, String>("piecesInPackage"));
-        priceOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("Categories"));
+        priceOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("Price"));
 
         tableProducts.setItems(products);
 
@@ -197,17 +197,7 @@ public class PredajcaController {
         }
 
         ObservableList<Order> orders = FXCollections.observableList(orderDao.getAll());
-        ArrayList<AllOrderHelp> orderHelps = new ArrayList<>();
-        for (int i = 0; i < orders.size(); i++) {
-            orderHelps.add(new AllOrderHelp(
-                    orders.get(i).getIdOrder(),
-                    orders.get(i).getName(),
-                    orders.get(i).getSumm(),
-                    orders.get(i).getOrderStatus(),
-                    orders.get(i).getSalesMan().getName()
-            ));
-        }
-        ObservableList<AllOrderHelp> tableOrderHelps = FXCollections.observableList(orderHelps);
+
 
         idOrderTable.setCellValueFactory(new PropertyValueFactory<Order, Long>("idOrder"));
         nameOrderTable.setCellValueFactory(new PropertyValueFactory<Order, String>("Name"));
@@ -216,7 +206,7 @@ public class PredajcaController {
         salesManOrderTable.setCellValueFactory(new PropertyValueFactory<Order, String>("SalesMan"));
 
 
-        allOrder.setItems(tableOrderHelps);
+        allOrder.setItems(orders);
         try {
             doubleClickListener2();
         } catch (Exception e) {
@@ -226,7 +216,7 @@ public class PredajcaController {
 
     private void doubleClickListener2() {
         allOrder.setRowFactory(tv -> {
-            TableRow<AllOrderHelp> row = new TableRow<>();
+            TableRow<Order> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
                     productInOrder = row.getItem();
@@ -356,15 +346,12 @@ public class PredajcaController {
         double sum = 0;
         HashMap<Product, Integer> productsInOrderNow = new HashMap<Product, Integer>();
         System.out.println(productsInOrderNow);
+
         for (int i = 0; i < orders.size(); i++) {
             sum += orders.get(i).getPrice();
             productsInOrderNow.put(productDao.getByName(orders.get(i).getName()), Integer.valueOf(orders.get(i).getCount()));
-
         }
-
-
-        String timeStamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
-        String s = PersonName.getText();
+        System.out.println(productsInOrderNow);
         Order order = new Order(
                 PersonName.getText(),
                 sum,
@@ -422,7 +409,7 @@ public class PredajcaController {
         tasteOfProduct.setCellValueFactory(new PropertyValueFactory<Product, Date>("taste"));
         manufactureOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("Manufacture"));
         countProductPieces.setCellValueFactory(new PropertyValueFactory<Product, String>("piecesInPackage"));
-        priceOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("Categories"));
+        priceOfProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("Price"));
 
         tableProducts.setItems(products);
 
@@ -463,7 +450,7 @@ public class PredajcaController {
                 productInOrder.getName(),
                 suma,
                 productInOrder.getOrderStatus(),
-                userDao.getByName(productInOrder.getSalesMan())
+                userDao.getByName(productInOrder.getSalesMan().getName())
 
         );
 

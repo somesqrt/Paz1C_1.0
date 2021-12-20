@@ -48,7 +48,7 @@ public class UserAddController {
         //Date nDate = date.parse(newDate.getText());
         Date nDate = new SimpleDateFormat("dd/MM/yyyy").parse(newDate.getText());
         String login = newLogin.getText();
-        String password = "1111";
+        String password = DaoFactory.INSTANCE.getUserDao().HashPassword("1111");
         Roles nRole = new Roles(1 ,String.valueOf(newRole.getValue()));
         nRole.setIdRole(numberRoly);
 

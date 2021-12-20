@@ -155,7 +155,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "\nProduct{" +
+        return "Product{" +
                 "idProduct=" + idProduct +
                 ", Name='" + Name + '\'' +
                 ", Manufacture='" + Manufacture + '\'' +
@@ -165,6 +165,7 @@ public class Product {
                 ", height=" + height +
                 ", length=" + length +
                 ", width=" + width +
+                ", price=" + price +
                 ", piecesInPackage=" + piecesInPackage +
                 ", Categories=" + Categories +
                 '}';

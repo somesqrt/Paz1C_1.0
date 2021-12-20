@@ -133,7 +133,7 @@
                                           <TextField fx:id="priceNewProdukt" layoutX="234.0" layoutY="322.0" />
                                           <TextField fx:id="piecesNewProdukt" layoutX="234.0" layoutY="360.0" />
                                           <ComboBox fx:id="categoriaNewProdukt" layoutX="233.0" layoutY="389.0" prefWidth="150.0" />
-                                          <Button fx:id="addProduct" layoutX="216.0" layoutY="424.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="125.0" stylesheets="@../../../styling/styling.css" text="Pridat produkt" />
+                                          <Button fx:id="addProduct" layoutX="216.0" layoutY="424.0" mnemonicParsing="false" onAction="#addProduct" prefHeight="40.0" prefWidth="125.0" stylesheets="@../../../styling/styling.css" text="Pridat produkt" />
                                           <Label layoutX="389.0" layoutY="61.0" text="*" />
                                           <Label layoutX="389.0" layoutY="96.0" text="*" />
                                           <Label layoutX="389.0" layoutY="127.0" text="*" />
@@ -166,13 +166,15 @@
                                           <TextField fx:id="heightNewPosition" layoutX="280.0" layoutY="154.0" />
                                           <TextField fx:id="weightNewPosition" layoutX="280.0" layoutY="187.0" />
                                           <TextField fx:id="lenghtNewPosition" layoutX="280.0" layoutY="219.0" />
-                                          <Button layoutX="231.0" layoutY="272.0" mnemonicParsing="false" onAction="#addPosition" prefHeight="40.0" prefWidth="99.0" text="Pridat poziciu" />
+                                          <Button layoutX="231.0" layoutY="289.0" mnemonicParsing="false" onAction="#addPosition" prefHeight="40.0" prefWidth="99.0" text="Pridat poziciu" />
                                           <Label layoutX="436.0" layoutY="61.0" text="*" />
                                           <Label layoutX="436.0" layoutY="95.0" text="*" />
                                           <Label layoutX="436.0" layoutY="126.0" text="*" />
                                           <Label layoutX="436.0" layoutY="158.0" text="*" />
                                           <Label layoutX="436.0" layoutY="191.0" text="*" />
                                           <Label layoutX="436.0" layoutY="223.0" text="*" />
+                                          <Label layoutX="106.0" layoutY="247.0" text="BearingCapacity" />
+                                          <TextField fx:id="bearingCapacityNewPosition" layoutX="279.0" layoutY="250.0" />
                                        </children>
                                     </Pane>
                                     <Pane layoutX="-2.0" layoutY="476.0" prefHeight="240.0" prefWidth="557.0" style="-fx-border-color: black; -fx-border-radius: 2;">
